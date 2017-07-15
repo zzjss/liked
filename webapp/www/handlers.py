@@ -153,6 +153,10 @@ async def api_register_user(*, email, name, passwd):
 '''
 日志创建页
 '''
+def text2html(text):
+    lines = map(lambda s: '<p>%s</p>' % s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;'), filter(lambda s: s.strip() != '', text.split('\n')))
+    return ''.join(lines)
+	
 @get('/blog/{id}')
 async def get_blog(id):
     blog = await Blog.find(id)
@@ -205,10 +209,6 @@ def get_page_index(page_str):
     if p < 1:
         p = 1
     return p
-
-def text2html(text):
-    lines = map(lambda s: '<p>%s</p>' % s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;'), filter(lambda s: s.strip() != '', text.split('\n')))
-    return ''.join(lines)
 	
 @get('/manage/blogs/edit')
 def manage_edit_blog(*, id):
